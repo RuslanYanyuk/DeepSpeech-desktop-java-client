@@ -5,13 +5,11 @@ sourceSets {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.so'])
-
     testImplementation 'junit:junit:4.12'
 }
 
 jar {
     from 'libs', {
-        into 'resources'
+        into 'libs'
     }
 }

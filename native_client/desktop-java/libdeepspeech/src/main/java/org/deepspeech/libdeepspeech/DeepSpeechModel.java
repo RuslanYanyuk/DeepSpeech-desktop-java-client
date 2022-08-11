@@ -1,13 +1,40 @@
 package org.deepspeech.libdeepspeech;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import sun.security.action.GetPropertyAction;
+
 /**
  * @brief Exposes a DeepSpeech model in Java
  **/
 public class DeepSpeechModel {
 
+    private static String extractLibrary() {
+        try {
+            // Create temporary file
+            String libFilePath = System.getProperty("java.io.tmpdir") + "/libdeepspeech.so";
+
+            // Now, we can get the lib file from JAR and put it inside temporary location
+            InputStream link = (DeepSpeechModel.class.getResourceAsStream("/libs/libdeepspeech.so"));
+
+            // We want to overwrite existing file. This is why we are using
+            //
+            // java.nio.file.StandardCopyOption.REPLACE_EXISTING
+            Files.copy(
+                link,
+                Paths.get(libFilePath),
+                java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            return libFilePath;
+        } catch (IOException e) {
+            // The same goes for exception - we are passing null back
+            throw new RuntimeException(e);
+        }
+    }
+
     static {
-        System.loadLibrary("deepspeech-jni");
-        System.loadLibrary("deepspeech");
+        System.load(extractLibrary());
     }
 
     // FIXME: We should have something better than those SWIGTYPE_*
