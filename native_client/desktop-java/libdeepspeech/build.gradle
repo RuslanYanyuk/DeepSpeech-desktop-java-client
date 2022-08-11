@@ -2,8 +2,6 @@ apply plugin: 'java'
 
 sourceSets {
     main.java.srcDirs = [ 'src/main/java/org/deepspeech/libdeepspeech/' ]
-
-    main.resources.srcDirs = [ 'libs' ]
 }
 
 dependencies {
@@ -12,6 +10,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 }
 
-task printABIs {
-    print ABI_FILTERS.split(';').join(" ")
+jar {
+    from 'libs', {
+        into 'resources'
+    }
 }
