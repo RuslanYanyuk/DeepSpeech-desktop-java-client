@@ -43,3 +43,4 @@ native_client/swift/deepspeech_ios.framework/deepspeech_ios
 .directory
 /examples/
 /kenlm/
+/native_client/desktop-java/gradle

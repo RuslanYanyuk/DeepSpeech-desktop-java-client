@@ -59,7 +59,7 @@ RUN rm -rf /var/lib/apt/lists/*
 ENV TF_NEED_ROCM 0
 ENV TF_NEED_OPENCL_SYCL 0
 ENV TF_NEED_OPENCL 0
-ENV TF_NEED_CUDA 1
+ENV TF_NEED_CUDA 0
 ENV TF_CUDA_PATHS "/usr,/usr/local/cuda-10.1,/usr/lib/x86_64-linux-gnu/"
 ENV TF_CUDA_VERSION 10.1
 ENV TF_CUDNN_VERSION 7.6
@@ -136,7 +136,7 @@ RUN ./configure
 RUN bazel build \
 	--workspace_status_command="bash native_client/bazel_workspace_status_cmd.sh" \
 	--config=monolithic \
-	--config=cuda \
+# --config=cuda \
 	-c opt \
 	--copt=-O3 \
 	--copt="-D_GLIBCXX_USE_CXX11_ABI=0" \
@@ -165,27 +165,12 @@ WORKDIR /DeepSpeech/native_client
 RUN make NUM_PROCESSES=$(nproc) deepspeech
 
 WORKDIR /DeepSpeech
-RUN cd native_client/python && make NUM_PROCESSES=$(nproc) bindings
-RUN pip3 install --upgrade native_client/python/dist/*.whl
-
-RUN cd native_client/ctcdecode && make NUM_PROCESSES=$(nproc) bindings
-RUN pip3 install --upgrade native_client/ctcdecode/dist/*.whl
+RUN cd native_client/desktop-java && make NUM_PROCESSES=$(nproc) bindings
 
 # << END Build and bind
 
 # Allow Python printing utf-8
 ENV PYTHONIOENCODING UTF-8
-
-# Build KenLM in /DeepSpeech/native_client/kenlm folder
-WORKDIR /DeepSpeech/native_client
-RUN rm -rf kenlm && \
-	git clone https://github.com/kpu/kenlm && \
-	cd kenlm && \
-	git checkout 87e85e66c99ceff1fab2500a7c60c01da7315eec && \
-	mkdir -p build && \
-	cd build && \
-	cmake .. && \
-	make -j $(nproc)
 
 # Done
 WORKDIR /DeepSpeech
