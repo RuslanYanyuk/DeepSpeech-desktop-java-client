@@ -7,10 +7,7 @@ GRADLE ?= ./gradlew
 
 all: apk
 
-clean: apk-clean
-	rm -rf *.java jni/deepspeech_wrap.cpp
-
-apk-clean:
+clean:
 	$(GRADLE) clean
 
 libs-clean:
