@@ -7,13 +7,12 @@ cmake_minimum_required(VERSION 3.4.1)
 
 set(JAVA_AWT_LIBRARY NotNeeded)
 set(JAVA_JVM_LIBRARY NotNeeded)
-set(JAVA_INCLUDE_PATH2 NotNeeded)
 set(JAVA_AWT_INCLUDE_PATH NotNeeded)
 
 find_package(Java COMPONENTS Development)
 find_package(JNI REQUIRED)
 
-include_directories(${JNI_INCLUDE_DIRS})
+include_directories(${JAVA_INCLUDE_PATH})
 include_directories(${JAVA_INCLUDE_PATH2})
 
 # Creates and names a library, sets it as either STATIC
@@ -52,7 +51,6 @@ add_custom_command( TARGET deepspeech-jni POST_BUILD
 target_link_libraries( # Specifies the target library.
                        deepspeech-jni
 
-                       deepspeech-lib
+                       deepspeech-lib)
 
-                       ${JNI_LIBRARIES})
-
+install(TARGETS deepspeech-jni LIBRARY DESTINATION ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI})

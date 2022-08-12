@@ -10,13 +10,13 @@ import java.nio.file.Paths;
  **/
 public class DeepSpeechModel {
 
-    private static String extractLibrary() {
+    private static String extractLibrary(String libName) {
         try {
             // Create temporary file
-            String libFilePath = System.getProperty("java.io.tmpdir") + "/libdeepspeech.so";
+            String libFilePath = System.getProperty("java.io.tmpdir") + "/" + libName;
 
             // Now, we can get the lib file from JAR and put it inside temporary location
-            InputStream link = (DeepSpeechModel.class.getResourceAsStream("/libs/libdeepspeech.so"));
+            InputStream link = (DeepSpeechModel.class.getResourceAsStream("/libs/x86_64/" + libName));
 
             // We want to overwrite existing file. This is why we are using
             //
@@ -33,7 +33,8 @@ public class DeepSpeechModel {
     }
 
     static {
-        System.load(extractLibrary());
+        System.load(extractLibrary("libdeepspeech.so"));
+        System.load(extractLibrary("libdeepspeech-jni.so"));
     }
 
     // FIXME: We should have something better than those SWIGTYPE_*
