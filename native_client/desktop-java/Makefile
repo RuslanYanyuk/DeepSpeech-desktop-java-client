@@ -25,4 +25,6 @@ maven-bundle: apk
 	$(GRADLE) zipMavenArtifacts
 
 bindings: clean ds-swig
-	$(DS_SWIG_ENV) swig -c++ -java -package org.deepspeech.libdeepspeech -outdir libdeepspeech/src/main/java/org/deepspeech/libdeepspeech/ jni/deepspeech.i
+	$(DS_SWIG_ENV) swig -c++ -java -package org.deepspeech.libdeepspeech -outdir libdeepspeech/src/main/java/org/deepspeech/libdeepspeech/ -o jni/deepspeech_wrap.cpp jni/deepspeech.i
+	cmake ./libdeepspeech
+	cmake --build ./libdeepspeech
