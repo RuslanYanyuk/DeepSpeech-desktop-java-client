@@ -26,4 +26,4 @@ maven-bundle: apk
 
 bindings: clean ds-swig
 	$(DS_SWIG_ENV) swig -c++ -java -package org.deepspeech.libdeepspeech -outdir libdeepspeech/src/main/java/org/deepspeech/libdeepspeech/ -o jni/deepspeech_wrap.cpp jni/deepspeech.i
-	cd ./libdeepspeech && cmake ./libdeepspeech && cmake --build .
+	cd ./libdeepspeech && cmake . && cmake --build .
