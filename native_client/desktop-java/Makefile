@@ -19,11 +19,7 @@ libdeepspeech/libs/%/libdeepspeech.so:
 
 apk: clean bindings $(patsubst %,libdeepspeech/libs/%/libdeepspeech.so,$(ARCHS))
 	cd ./libdeepspeech && cmake -DANDROID_ABI="$(ARCHS)" . && cmake -DANDROID_ABI="$(ARCHS)" --build . && make && make install
-	$(GRADLE) jar
-
-maven-bundle: apk
-	$(GRADLE) uploadArchives
-	$(GRADLE) zipMavenArtifacts
+	$(GRADLE) artifactoryPublish
 
 bindings: clean ds-swig
 	$(DS_SWIG_ENV) swig -c++ -java -package org.deepspeech.libdeepspeech -outdir libdeepspeech/src/main/java/org/deepspeech/libdeepspeech/ -o jni/deepspeech_wrap.cpp jni/deepspeech.i

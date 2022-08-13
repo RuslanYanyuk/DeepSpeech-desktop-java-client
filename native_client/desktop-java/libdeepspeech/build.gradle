@@ -4,10 +4,6 @@ sourceSets {
     main.java.srcDirs = [ 'src/main/java/org/deepspeech/libdeepspeech/' ]
 }
 
-dependencies {
-    testImplementation 'junit:junit:4.12'
-}
-
 jar {
     from 'libs', {
         into 'libs'
