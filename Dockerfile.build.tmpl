@@ -165,12 +165,6 @@ WORKDIR /DeepSpeech/native_client
 RUN make NUM_PROCESSES=$(nproc) deepspeech
 
 WORKDIR /DeepSpeech
-RUN cd native_client/desktop-java && make NUM_PROCESSES=$(nproc) bindings
+RUN cd native_client/desktop-java && make NUM_PROCESSES=$(nproc) apk
 
 # << END Build and bind
-
-# Allow Python printing utf-8
-ENV PYTHONIOENCODING UTF-8
-
-# Done
-WORKDIR /DeepSpeech
